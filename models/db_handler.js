@@ -11,7 +11,8 @@ function getConnection() {
   return mysql.createConnection(connectionDetails);
 }
 
-function executeQuery(query) {
+// make the function accept parameters as arg
+function executeQuery(query, parameters) {
   let connection = getConnection();
   connection.connect((err) => {
     if (!err) {
@@ -23,7 +24,7 @@ function executeQuery(query) {
 
   // let query = `create  table if not exists person(p_id int primary key auto_increment, p_name varchar(255) not null, p_age int not null default 18, p_email varchar(255) not null, p_country varchar(255) not null default "IN")`;
 
-  connection.query(query, (err, results, fields) => {
+  connection.query(query, parameters, (err, results, fields) => {
     if (err) {
       console.log(err);
     }
