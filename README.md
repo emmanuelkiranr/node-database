@@ -68,3 +68,20 @@ connection.query(query, (err, results, fields) => {
 
 connection.commit();
 ```
+
+### Functions to execute SQL queries
+
+The above method will result in a lot of queries, so we create a new file with separate fns for different operations
+So first we need to export the `executeQuery();`
+
+In person.js
+
+```
+import db from "./db_handler.js";
+
+function createOne() {
+  let sql = `insert into person values(4, "Dummy", 18, "dummy@mail.com", "UK")`;
+  db(sql);
+}
+createOne();
+```
