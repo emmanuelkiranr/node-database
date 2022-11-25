@@ -277,3 +277,39 @@ NOTE: In postman create a new request with POST method and in the body category 
 ## Updating an db entry using the post method from postman
 
 This is similar to above, in postman we only pass the id and name
+
+## Deleting an entry from db using post from postman & get method
+
+### Using GET method via the browser request
+
+`person.js`
+
+```
+function deleteRow(p_id, callback) {
+  let sql = `delete from person where p_id=?;`;
+  db(sql, p_id, callback);
+}
+```
+
+`routing.js`
+
+```
+var id = query.id;
+  db.deleteRow(id, (err, res) => {
+    response.end(JSON.stringify(res));
+});
+```
+
+### Using POST method via postman
+
+`person.js`
+
+```
+function deleteRow(data, callback) {
+  let sql = `delete from person where p_id=?;`;
+  let values = [data.p_id];
+  db(sql, values, callback);
+}
+```
+
+`routing.js` - same as above

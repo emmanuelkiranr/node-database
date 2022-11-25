@@ -32,4 +32,15 @@ function updateData(data, callback) {
   let values = [data.p_name, data.p_id]; // data in order of sql query
   db(sql, values, callback);
 }
-export default { getAll, getOne, createOne, updateData };
+
+// function deleteRow(p_id, callback) {
+//   let sql = `delete from person where p_id=?;`;
+//   db(sql, p_id, callback);
+// } - works only if response send from browser using GET method
+
+function deleteRow(data, callback) {
+  let sql = `delete from person where p_id=?;`;
+  let values = [data.p_id];
+  db(sql, values, callback);
+}
+export default { getAll, getOne, createOne, updateData, deleteRow };

@@ -1,12 +1,13 @@
 import http from "http";
 import db from "./models/person.js";
 import url from "url";
-import qs from "querystring"; // will giv
+import qs from "querystring";
 
 const server = new http.createServer((req, response) => {
   let link = url.parse(req.url, true);
   let path = link.pathname;
   let query = link.query;
+  // let get = req.method;
 
   switch (path) {
     case "/api/users":
@@ -15,7 +16,7 @@ const server = new http.createServer((req, response) => {
       });
       break;
     case "/api/user":
-      let id = query.id;
+      var id = query.id;
       db.getOne(id, (err, res) => {
         response.end(JSON.stringify(res));
       });
@@ -58,6 +59,30 @@ const server = new http.createServer((req, response) => {
           }
         });
       });
+      break;
+    case "/api/delete":
+      // var id = query.id;
+      // db.deleteRow(id, (err, res) => {
+      //   response.end(JSON.stringify(res));
+      // }); //- This would delete the row if executed from brower(cause its get request)
+
+      // For Delete method from postman, we need to listen to events
+      var formData = "";
+      req.on("data", (data) => {
+        formData += data.toString();
+      });
+      req.on("end", () => {
+        let query = qs.parse(formData);
+        db.deleteRow(query, (err, result) => {
+          if (!err) {
+            response.end(JSON.stringify({ status: "OK" }));
+          } else {
+            response.end(JSON.stringify({ status: "FAILED" }));
+            console.log(err);
+          }
+        });
+      });
+      break;
   }
 });
 
