@@ -69,6 +69,13 @@ connection.query(query, (err, results, fields) => {
 connection.commit();
 ```
 
+### Note
+
+```
+person.js
+  contains all the function that'll execute an sql query when we call it with some args
+```
+
 ## Functions to execute SQL queries
 
 The above method will result in a lot of queries, so we create a new file with separate fns for different operations
@@ -132,3 +139,57 @@ export default createOne;
 Here we take the values from the object and put it into an array, which is then passed as the argument to executeQuery()
 
 Finally in `db_handler` Update the function in order to accept the values array as an parameter
+
+## Sending Person data as response to requests
+
+### View all table data
+
+`person.js`
+
+```
+Also update the executeQuery fn exported from db_handler to accept a callback as parameter
+
+function getAll(callback) {
+  let sql = `select * from person`;
+  db(sql, [], callback);
+}
+```
+
+`routing.js`
+
+```
+case "/api/users":
+  db.getAll((err, res) => {
+    response.end(JSON.stringify(res));
+  });
+  break;
+```
+
+Here the callback returns the response
+Working:
+
+- We call the getAll fn definition, which is in person.js and pass this callback as argument.
+- Which inturn will pass this callback (along with sql query and the values, empty array in this case) to the executeQuery fn defined in the db_handler.
+- The query method in the executeQuery fn will execute the sql query and call the callback fn which returns the response.
+
+### View data filtered by pk using query
+
+`person.js`
+
+```
+function getOne(p_id, callback) {
+  var sql = "select * from person where P_id=?";
+  db(sql, p_id, callback);
+}
+```
+
+`routing.js`
+
+```
+case "/api/user":
+  let id = query.id;
+  db.getOne(id, (err, res) => {
+    response.end(JSON.stringify(res));
+  });
+  break;
+```
