@@ -1,10 +1,10 @@
 import mysql from "mysql2";
 
 const connectionDetails = {
-  host: "localhost",
-  user: "root",
-  password: "ekr@hp2022",
-  database: "Person",
+  host: "",
+  user: "",
+  password: "",
+  database: "",
 };
 
 function getConnection() {
@@ -32,4 +32,5 @@ function executeQuery(query, parameters) {
   connection.commit();
   connection.end();
 }
-executeQuery();
+// executeQuery();
+export default executeQuery;
