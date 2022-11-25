@@ -233,7 +233,9 @@ formData += data.toString();
 ```
 
 - Once we get the query, and the request end event is emitted, we parse the formData
-- query will be an object with key value pairs with keys representing the column name and values represeing their values, this query with key, value pairs are requested from postman using post method
+- query will be an object with key value pairs with keys representing the column name and values represeing their values, this query with key, value pairs are requested from postman using post method.
+
+We do it using the core module querystring since it directly gives us the object [also we are passing the object as params].
 
 ```
 OUTPUT after parsing the query
@@ -271,3 +273,7 @@ req.on("end", () => {
 ```
 
 NOTE: In postman create a new request with POST method and in the body category select x-www-form-urlencoded, there create and pass in the key value pairs.
+
+## Updating an db entry using the post method from postman
+
+This is similar to above, in postman we only pass the id and name

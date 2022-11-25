@@ -1,7 +1,7 @@
 import http from "http";
 import db from "./models/person.js";
 import url from "url";
-import qs from "querystring";
+import qs from "querystring"; // will giv
 
 const server = new http.createServer((req, response) => {
   let link = url.parse(req.url, true);
@@ -22,10 +22,10 @@ const server = new http.createServer((req, response) => {
       break;
     case "/api/create":
       console.log("postman req");
-      let formData = "";
+      var formData = "";
       req.on("data", (data) => {
-        console.log(data.toString());
         formData += data.toString();
+        // console.log(formData);
       });
       req.on("end", () => {
         let query = qs.parse(formData); // this is the query appended after the ? in the req url
@@ -42,6 +42,22 @@ const server = new http.createServer((req, response) => {
         });
       });
       break;
+    case "/api/update":
+      var formData = "";
+      req.on("data", (data) => {
+        formData += data.toString();
+      });
+      req.on("end", () => {
+        let query = qs.parse(formData);
+        db.updateData(query, (err, result) => {
+          if (!err) {
+            response.end(JSON.stringify({ status: "OK" }));
+          } else {
+            response.end(JSON.stringify({ status: "FAILED" }));
+            console.log(err);
+          }
+        });
+      });
   }
 });
 

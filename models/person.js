@@ -26,4 +26,10 @@ function createOne(data, callback) {
   // db(sql, [num, ...])
 }
 // createOne();
-export default { getAll, getOne, createOne };
+
+function updateData(data, callback) {
+  let sql = `update person set p_name=? where p_id=?`;
+  let values = [data.p_name, data.p_id]; // data in order of sql query
+  db(sql, values, callback);
+}
+export default { getAll, getOne, createOne, updateData };
