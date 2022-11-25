@@ -11,12 +11,18 @@ function getOne(p_id, callback) {
   db(sql, p_id, callback);
 }
 
-function createOne(data) {
+function createOne(data, callback) {
   // let sql = `insert into person values(1, "ekr", 22, "ekr@mail", "IN")`;
   // db(sql);
   let sql = `insert into person (p_id, p_name, p_age, p_email, p_country) values (?,?,?,?,?)`;
-  let values = [data.num, data.name, data.age, data.email, data.country];
-  db(sql, values);
+  let values = [
+    data.p_id,
+    data.p_name,
+    data.p_age,
+    data.p_email,
+    data.p_country,
+  ];
+  db(sql, values, callback);
   // db(sql, [num, ...])
 }
 // createOne();

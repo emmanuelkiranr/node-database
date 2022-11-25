@@ -3,12 +3,12 @@
 import rl from "readline-Sync";
 import db from "./models/person.js";
 
-let num = rl.question("Enter the num: ");
-let name = rl.question("Enter the name: ");
-let age = rl.question("Enter the age: ");
-let email = rl.question("Enter the email: ");
-let country = rl.question("Enter the country: ");
-db.createOne({ num, name, age, email, country });
+let p_id = rl.question("Enter the num: ");
+let p_name = rl.question("Enter the name: ");
+let p_age = rl.question("Enter the age: ");
+let p_email = rl.question("Enter the email: ");
+let p_country = rl.question("Enter the country: ");
+db.createOne({ p_id, p_name, p_age, p_email, p_country });
 
 // let data = {num, name, age, email, country};
 // db(data);
