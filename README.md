@@ -193,3 +193,81 @@ case "/api/user":
   });
   break;
 ```
+
+## Creating new entries by sending requests using post method from Postman
+
+```
+case "/api/create":
+  console.log("postman req");
+  let formData = "";
+  req.on("data", (data) => {
+    console.log(data.toString());
+    formData += data.toString();
+  });
+  req.on("end", () => {
+    let query = qs.parse(formData);
+    console.log(query);
+    db.createOne(query, (err, result) => {
+      if (!err) {
+        response.end(JSON.stringify({ status: "OK" }));
+      } else {
+        response.end(JSON.stringify({ status: "FAILED" }));
+        console.log(err);
+      }
+    });
+  });
+  break;
+```
+
+- Firstly we need to get the query from the request(send by postman)
+- so we initialize an empty string formData
+- we listen to the request for data event (ie the query in url)
+- we append this to formData
+
+```
+let formData = "";
+req.on("data", (data) => {
+console.log(data.toString());
+formData += data.toString();
+});
+```
+
+- Once we get the query, and the request end event is emitted, we parse the formData
+- query will be an object with key value pairs with keys representing the column name and values represeing their values, this query with key, value pairs are requested from postman using post method
+
+```
+OUTPUT after parsing the query
+[Object: null prototype] {
+  p_id: '6',
+  p_name: 'adf',
+  p_age: '23',
+  p_email: 'adf',
+  p_country: 'UK'
+}
+```
+
+```
+req.on("end", () => {
+    let query = qs.parse(formData); // this is the query appended after the ? in the req url
+    console.log(query);
+  ...
+  });
+```
+
+- After that we call the createOne fn imported using the db and pass this query of object as the parameter along with a callback fn to send the status as response
+
+```
+req.on("end", () => {
+  ...
+    db.createOne(query, (err, result) => {
+      if (!err) {
+        response.end(JSON.stringify({ status: "OK" }));
+      } else {
+        response.end(JSON.stringify({ status: "FAILED" }));
+        console.log(err);
+      }
+    });
+  });
+```
+
+NOTE: In postman create a new request with POST method and in the body category select x-www-form-urlencoded, there create and pass in the key value pairs.
