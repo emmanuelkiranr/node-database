@@ -8,7 +8,7 @@ let name = rl.question("Enter the name: ");
 let age = rl.question("Enter the age: ");
 let email = rl.question("Enter the email: ");
 let country = rl.question("Enter the country: ");
-db({ num, name, age, email, country });
+db.createOne({ num, name, age, email, country });
 
 // let data = {num, name, age, email, country};
 // db(data);
